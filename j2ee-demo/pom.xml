@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>de.gedoplan.showcase</groupId>
+    <artifactId>jee-demo</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>..</relativePath>
+  </parent>
+
+  <artifactId>j2ee-demo</artifactId>
+
+  <packaging>war</packaging>
+
+  <dependencies>
+    <!-- 
+    We are using JEE 6 here, because
+    - there is no single JEE dependency for older versions,
+    - the application has a REST interface as simple API and REST was introduced with JEE 6 
+    -->
+    <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-web-api</artifactId>
+      <version>6.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+  </dependencies>
+
+</project>

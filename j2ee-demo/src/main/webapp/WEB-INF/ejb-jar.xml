@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<ejb-jar xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+		 http://java.sun.com/xml/ns/j2ee/ejb-jar_2_1.xsd" version="2.1">
+  <enterprise-beans>
+    <session>
+      <ejb-name>WorldService</ejb-name>
+      <local-home>de.gedoplan.showcase.service.WorldServiceHome</local-home>
+      <local>de.gedoplan.showcase.service.WorldService</local>
+      <ejb-class>de.gedoplan.showcase.service.WorldServiceBean</ejb-class>
+      <session-type>Stateless</session-type>
+      <transaction-type>Container</transaction-type>
+    </session>
+    <session>
+      <ejb-name>HelloService</ejb-name>
+      <local-home>de.gedoplan.showcase.service.HelloServiceHome</local-home>
+      <local>de.gedoplan.showcase.service.HelloService</local>
+      <ejb-class>de.gedoplan.showcase.service.HelloServiceBean</ejb-class>
+      <session-type>Stateless</session-type>
+      <transaction-type>Container</transaction-type>
+      <ejb-local-ref>
+        <ejb-ref-name>WorldService</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local-home>de.gedoplan.showcase.service.WorldServiceHome</local-home>
+        <local>de.gedoplan.showcase.service.WorldService</local>
+      </ejb-local-ref>
+    </session>
+  </enterprise-beans>
+</ejb-jar>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>de.gedoplan</groupId>
+    <artifactId>build-master</artifactId>
+    <version>2020.9.1</version>
+  </parent>
+
+  <groupId>de.gedoplan.showcase</groupId>
+  <artifactId>jee-demo</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <packaging>pom</packaging>
+
+  <properties>
+    <java.code.version>11</java.code.version>
+
+    <docker.skip>true</docker.skip>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>gedoplanPublic</id>
+      <url>http://service.gedoplan.de/nexus/content/groups/public</url>
+    </repository>
+  </repositories>
+
+  <modules>
+    <module>j2ee-demo</module>
+    <module>java-ee-6-demo</module>
+    <module>jee-8-demo</module>
+    <module>jee-9-demo</module>
+  </modules>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.20</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>${project.artifactId}</finalName>
+
+    <defaultGoal>clean package</defaultGoal>
+
+    <plugins>
+      <plugin>
+        <groupId>io.fabric8</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>0.36.1</version>
+        <configuration>
+          <verbose>true</verbose>
+          <skip>${docker.skip}</skip>
+          <images>
+            <image>
+              <name>${IMAGE_NAME}</name>
+              <build>
+                <dockerFile>${DOCKER_FILE}</dockerFile>
+                <contextDir>${project.basedir}</contextDir>
+                <assembly>
+                  <descriptorRef>artifact</descriptorRef>
+                </assembly>
+              </build>
+            </image>
+          </images>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>build</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>docker-openliberty</id>
+      <properties>
+        <docker.skip>false</docker.skip>
+        <IMAGE_NAME>gedoplan/${project.artifactId}-openliberty</IMAGE_NAME>
+        <DOCKER_FILE>Dockerfile-openliberty</DOCKER_FILE>
+      </properties>
+    </profile>
+    <profile>
+      <id>docker-payara</id>
+      <properties>
+        <docker.skip>false</docker.skip>
+        <IMAGE_NAME>gedoplan/${project.artifactId}-payara</IMAGE_NAME>
+        <DOCKER_FILE>Dockerfile-payara</DOCKER_FILE>
+      </properties>
+    </profile>
+    <profile>
+      <id>docker-wildfly</id>
+      <properties>
+        <docker.skip>false</docker.skip>
+        <IMAGE_NAME>gedoplan/${project.artifactId}-wildfly</IMAGE_NAME>
+        <DOCKER_FILE>Dockerfile-wildfly</DOCKER_FILE>
+      </properties>
+    </profile>
+    <profile>
+      <id>docker-wildfly-preview</id>
+      <properties>
+        <docker.skip>false</docker.skip>
+        <IMAGE_NAME>gedoplan/${project.artifactId}-wildfly-preview</IMAGE_NAME>
+        <DOCKER_FILE>Dockerfile-wildfly-preview</DOCKER_FILE>
+      </properties>
+    </profile>
+  </profiles>
+</project>
